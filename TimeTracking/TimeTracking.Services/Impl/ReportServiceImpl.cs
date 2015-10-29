@@ -70,7 +70,7 @@ namespace TimeTracking.Services.Impl
                 var row = worksheet.Row(i + 1);
                 row.Cell("A").SetValue(employeeLines[i].FullName);
 
-                worksheet.Range(String.Format("A{0}:A{0}", 1, 4)).Merge();
+                worksheet.Range(String.Format("A{0}:A{0}", 1, 4)).Column(1).Merge();
             }
 
             return workbook;

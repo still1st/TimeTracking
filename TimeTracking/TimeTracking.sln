@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTracking.Domain", "TimeTracking.Domain\TimeTracking.Domain.csproj", "{153792D4-0E3C-4B10-91FE-2E39F4822083}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTracking.Services.Tests", "TimeTracking.Services.Tests\TimeTracking.Services.Tests.csproj", "{7E7C9C01-FD26-411D-B525-8A1FA70A4C56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTracking.Common", "TimeTracking.Common\TimeTracking.Common.csproj", "{1E927FF4-9D34-4E04-8405-3F2FDDED00EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTracking", "TimeTracking\TimeTracking.csproj", "{C9FDDDEA-9057-48CE-9F2B-8228E1A8EAC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{1E927FF4-9D34-4E04-8405-3F2FDDED00EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E927FF4-9D34-4E04-8405-3F2FDDED00EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E927FF4-9D34-4E04-8405-3F2FDDED00EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9FDDDEA-9057-48CE-9F2B-8228E1A8EAC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9FDDDEA-9057-48CE-9F2B-8228E1A8EAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9FDDDEA-9057-48CE-9F2B-8228E1A8EAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9FDDDEA-9057-48CE-9F2B-8228E1A8EAC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
