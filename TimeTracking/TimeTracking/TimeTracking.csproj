@@ -182,13 +182,23 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\app.config.routes.js" />
+    <Content Include="app\app.controller.js" />
+    <Content Include="app\app.module.js" />
+    <Content Include="app\pages\home\home.controller.js" />
+    <Content Include="app\pages\home\home.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bower_components\angular-resource\angular-resource.min.js" />
+    <Content Include="Content\bower_components\angular-route\angular-route.min.js" />
+    <Content Include="Content\bower_components\angular\angular.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include=".bowerrc" />
+    <Content Include="bower.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

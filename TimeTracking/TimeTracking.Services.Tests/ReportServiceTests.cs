@@ -58,6 +58,8 @@ namespace TimeTracking.Services.Tests
             // ACT
             var report = _reportService.BuildReport(table);
             var excel = _reportService.GetExcel(report);
+            excel.SaveAs(@"D:\_delete\report.xlsx");
+
 
             // ASSERT
             Assert.IsNotNull(excel);
