@@ -4,8 +4,6 @@ namespace TimeTracking.Domain.Models
 {
     public enum EmployeePost
     {
-        NotSpecified = 0,
-
         [Description("Санитарка")]
         JuniorNurse = 1,
 

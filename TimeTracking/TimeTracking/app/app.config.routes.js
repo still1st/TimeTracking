@@ -13,6 +13,7 @@
 
             $routeProvider
             .when('/home', new Route('home/home.html', 'HomeCtrl'))
+            .when('/employee', new Route('employee/employee.html', 'EmployeeCtrl'))
             .otherwise({
                 redirectTo: '/home'
             });

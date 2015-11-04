@@ -10,6 +10,8 @@ namespace TimeTracking.Domain.Models
         
         public virtual String LastName { get; set; }
 
+        public virtual String MiddleName { get; set; }
+
         public virtual EmployeePost Post { get; set; }
     }
 }

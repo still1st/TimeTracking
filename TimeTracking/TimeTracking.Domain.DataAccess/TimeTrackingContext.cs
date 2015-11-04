@@ -8,7 +8,6 @@ namespace TimeTracking.Domain.DataAccess
         public TimeTrackingContext()
             : base("TimeTrackingConnection")
         {
-
         }
 
         public DbSet<Employee> Employees { get; set; }

@@ -1,9 +1,52 @@
-﻿<div class="col-md-12">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3>Сотрудники</h3>
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1 class="panel-title pull-left">Табель</h1>
+        <button ng-click="addEmployee()" class="btn btn-success pull-right">Добавить сотрудника</button>
+        <div class="clearfix"></div>
+    </div>
+    <div class="panel-body">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Параметры</h3>
+            </div>
+            <div class="panel-body">
+                <form name="paramForm" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Месяц</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="formModel.month" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Год</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="formModel.year" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Сотрудник</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select ng-model="formModel.employee"
+                                    ng-options="employee.id as employee.name for employee in employees"
+                                    class="form-control"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="panel-body">
+        <div ng-repeat="employee in employees" class="panel panel-default">
+            <div class="panel-heading">
+                <h4 ng-bind="employee.name" class="panel-title"></h4>
+            </div>
+            <div class="panel-body">
+                <calendar></calendar>
+            </div>
         </div>
     </div>
 </div>
