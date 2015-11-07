@@ -1,0 +1,143 @@
+﻿<!--НОРМА РАБОЧЕГО ВРЕМЕНИ В ДЕНЬ-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Норма рабочего времени в день</h1>
+            </div>
+            <!--BODY-->
+            <div class="panel-body">
+                <!--FORM-->
+                <form name="planWorkDayForm" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Группа</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select ng-model="planWorkDayModel.groupId"
+                                    ng-options="group.key as group.value for group in groups"
+                                    class="form-control"
+                                    required></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Норма часов в день</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" ng-model="planWorkDayModel.hours" required />
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" ng-click="addPlanWorkDay()" ng-disabled="planWorkDayForm.$invalid">Добавить</button>
+                </form>
+            </div>
+
+            <!--TABLE-->
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Группа</th>
+                        <th>Часов в день</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="planWorkDay in planWorkDays">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="planWorkDay.group"></td>
+                        <td ng-bind="planWorkDay.hours"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--НОРМА РАБОЧЕГО ВРЕМЕНИ В МЕСЯЦ-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Норма рабочего времени в месяц</h1>
+            </div>
+            <!--TABLE-->
+            <table class="table table-bordered table-striped table-hover" >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Месяц</th>
+                        <th ng-repeat="planGroup in planGroups">
+                            {{planGroup.group}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="planWorkMonth in planWorkMonths">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="planWorkMonth.month"></td>
+                        <td ng-repeat="group in planWorkMonth.groups">
+                            {{group.hours | number:1}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--ПРАЗДНИЧНЫЕ/ПРЕДПРАЗДНИЧНЫЕ ДНИ-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Праздничные и предпраздничные дни</h1>
+            </div>
+            <!--BODY-->
+            <div class="panel-body">
+                <!--FORM-->
+                <form name="holidayForm" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>День</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" ng-model="holidayModel.date" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Тип</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select class="form-control"
+                                    ng-model="holidayModel.typeId"
+                                    ng-options="type.key as type.value for type in dayTypes"
+                                    required></select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" ng-click="addHoliday()" ng-disabled="holidayForm.$invalid">Добавить</button>
+                </form>
+            </div>
+
+            <!--TABLE-->
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>День</th>
+                        <th>Тип</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="holiday in holidays">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="holiday.date | date: 'dd.MM.yyyy'"></td>
+                        <td ng-bind="holiday.type"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

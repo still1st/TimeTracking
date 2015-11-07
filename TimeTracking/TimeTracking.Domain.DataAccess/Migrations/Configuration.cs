@@ -1,9 +1,11 @@
 namespace TimeTracking.Domain.DataAccess.Migrations
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using TimeTracking.Domain.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<TimeTrackingContext>
     {
@@ -14,7 +16,6 @@ namespace TimeTracking.Domain.DataAccess.Migrations
 
         protected override void Seed(TimeTrackingContext context)
         {
-
         }
     }
 }

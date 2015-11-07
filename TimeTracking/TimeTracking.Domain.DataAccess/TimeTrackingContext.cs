@@ -11,5 +11,7 @@ namespace TimeTracking.Domain.DataAccess
         }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Holiday> Holidays { get; set; }
+        public DbSet<PlanWorkDay> PlanWorkDays { get; set; }
     }
 }

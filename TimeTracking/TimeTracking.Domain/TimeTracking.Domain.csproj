@@ -39,8 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\DayType.cs" />
+    <Compile Include="Enums\EmployeeGroup.cs" />
+    <Compile Include="Models\Holiday.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Enums\EmployeePost.cs" />
+    <Compile Include="Models\PlanWorkDay.cs" />
     <Compile Include="Models\Table.cs" />
     <Compile Include="Models\TableRecord.cs" />
     <Compile Include="Enums\TableRecordType.cs" />

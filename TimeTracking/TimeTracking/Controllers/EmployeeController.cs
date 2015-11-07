@@ -9,15 +9,19 @@ using TimeTracking.Domain.DataAccess.Repositories;
 using TimeTracking.Domain.Models;
 using TimeTracking.Models;
 using System.Collections.Generic;
+using TimeTracking.Services;
+using TimeTracking.Domain.Enums;
 
 namespace TimeTracking.Controllers
 {
     [RoutePrefix("api/employee")]
     public class EmployeeController : ApiController
     {
-        public EmployeeController(IEmployeeRepository employeeRepository,
+        public EmployeeController(IEmployeeService employeeService,
+            IEmployeeRepository employeeRepository,
             IUnitOfWork unitOfWork)
         {
+            _employeeService = employeeService;
             _employeeRepository = employeeRepository;
             _unitOfWork = unitOfWork;
         }
@@ -35,6 +39,7 @@ namespace TimeTracking.Controllers
                 return BadRequest();
 
             var employee = Mapper.Map<Employee>(model);
+            employee.Group = _employeeService.ResolveGroupByPost(employee.Post);
             _employeeRepository.Add(employee);
             _unitOfWork.Commit();
 
@@ -81,9 +86,17 @@ namespace TimeTracking.Controllers
             return Ok(EnumExtensions.ToKeyValuePairs<EmployeePost>());
         }
 
+        [HttpGet]
+        [Route("Groups")]
+        public IHttpActionResult GetGroups()
+        {
+            return Ok(EnumExtensions.ToKeyValuePairs<EmployeeGroup>());
+        }
+
         #region private fields
         private IEmployeeRepository _employeeRepository;
-        private IUnitOfWork _unitOfWork; 
+        private IUnitOfWork _unitOfWork;
+        private IEmployeeService _employeeService;
         #endregion
     }
 }

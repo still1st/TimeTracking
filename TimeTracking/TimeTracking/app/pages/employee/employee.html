@@ -4,73 +4,69 @@
             Сотрудники
         </h1>
     </div>
+    <!--BODY-->
     <div class="panel-body">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <h1 class="panel-title">Добавление нового сотрудника</h1>
+        <form name="employeeForm" class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label>Фамилия</label>
+                </div>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" ng-model="employeeModel.lastName" required />
+                </div>
             </div>
-            <div class="panel-body">
-                <form name="employeeForm" class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-sm-3">
-                            <label>Фамилия</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" ng-model="employeeModel.lastName" required />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-3">
-                            <label>Имя</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" ng-model="employeeModel.firstName" required/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-3">
-                            <label>Отчество</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" ng-model="employeeModel.middleName" required />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-3">
-                            <label>Должность</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <select class="form-control"
-                                    ng-model="employeeModel.postId"
-                                    ng-options="post.key as post.value for post in posts"
-                                    required>
-                            </select>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-block" ng-click="save()" ng-disabled="employeeForm.$invalid">Добавить</button>
-                </form>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label>Имя</label>
+                </div>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" ng-model="employeeModel.firstName" required />
+                </div>
             </div>
-        </div>
-
-        <table class="table table-bordered table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Фамилия</th>
-                    <th>Имя</th>
-                    <th>Отчество</th>
-                    <th>Должность</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="employee in employees">
-                    <td ng-bind="$index+1"></td>
-                    <td ng-bind="employee.lastName"></td>
-                    <td ng-bind="employee.firstName"></td>
-                    <td ng-bind="employee.middleName"></td>
-                    <td ng-bind="employee.post"></td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label>Отчество</label>
+                </div>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" ng-model="employeeModel.middleName" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label>Должность</label>
+                </div>
+                <div class="col-sm-9">
+                    <select class="form-control"
+                            ng-model="employeeModel.postId"
+                            ng-options="post.key as post.value for post in posts"
+                            required></select>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-block" ng-click="save()" ng-disabled="employeeForm.$invalid">Добавить</button>
+        </form>
     </div>
+
+    <!--TABLE-->
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Должность</th>
+                <th>Группа</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="employee in employees">
+                <td ng-bind="$index+1"></td>
+                <td ng-bind="employee.lastName"></td>
+                <td ng-bind="employee.firstName"></td>
+                <td ng-bind="employee.middleName"></td>
+                <td ng-bind="employee.post"></td>
+                <td ng-bind="employee.group"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>    

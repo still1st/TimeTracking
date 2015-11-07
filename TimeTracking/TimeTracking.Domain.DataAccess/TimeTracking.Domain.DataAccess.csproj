@@ -55,10 +55,14 @@
     <Compile Include="Base\UnitOfWorkImpl.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IHolidayRepository.cs" />
     <Compile Include="Repositories\IEmployeeRepository.cs" />
+    <Compile Include="Repositories\Impl\HolidayRepositoryImpl.cs" />
     <Compile Include="Repositories\Impl\EmployeeRepositoryImpl.cs" />
+    <Compile Include="Repositories\Impl\PlanWorkDayRepositoryImpl.cs" />
     <Compile Include="Repositories\Impl\TableRecordRepositoryImpl.cs" />
     <Compile Include="Repositories\Impl\TableRepositoryImpl.cs" />
+    <Compile Include="Repositories\IPlanWorkDayRepository.cs" />
     <Compile Include="Repositories\ITableRecordRepository.cs" />
     <Compile Include="Repositories\ITableRepository.cs" />
     <Compile Include="TimeTrackingContext.cs" />

@@ -14,6 +14,7 @@
             $routeProvider
             .when('/home', new Route('home/home.html', 'HomeCtrl'))
             .when('/employee', new Route('employee/employee.html', 'EmployeeCtrl'))
+            .when('/planworktime/:year', new Route('planworktime/planworktime.html', 'PlanWorktimeCtrl'))
             .otherwise({
                 redirectTo: '/home'
             });
