@@ -1,0 +1,40 @@
+﻿angular.module('timetracking')
+.constant('DateCnst', {
+	months: [{
+		key: 1,
+		value: 'Январь'
+	}, {
+		key: 2,
+		value: 'Февраль'
+	}, {
+		key: 3,
+		value: 'Март'
+	}, {
+		key: 4,
+		value: 'Апрель'
+	}, {
+		key: 5,
+		value: 'Май'
+	}, {
+		key: 6,
+		value: 'Июнь'
+	}, {
+		key: 7,
+		value: 'Июль'
+	}, {
+		key: 8,
+		value: 'Август'
+	}, {
+		key: 9,
+		value: 'Сентябрь'
+	}, {
+		key: 10,
+		value: 'Октябрь'
+	}, {
+		key: 11,
+		value: 'Ноябрь'
+	}, {
+		key: 12,
+		value: 'Декабрь'
+	}]
+});

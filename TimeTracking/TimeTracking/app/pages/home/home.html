@@ -1,10 +1,6 @@
-﻿<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h1 class="panel-title pull-left">Табель</h1>
-        <button ng-click="addEmployee()" class="btn btn-success pull-right">Добавить сотрудника</button>
-        <div class="clearfix"></div>
-    </div>
-    <div class="panel-body">
+﻿<!--ПАРАМЕТРЫ-->
+<div class="row">
+    <div class="col-md-12">
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 class="panel-title">Параметры</h3>
@@ -16,15 +12,10 @@
                             <label>Месяц</label>
                         </div>
                         <div class="col-sm-9">
-                            <input type="text" ng-model="formModel.month" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-3">
-                            <label>Год</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="formModel.year" class="form-control" />
+                            <select ng-model="paramModel.month"
+                                    ng-options="month as month.value for month in months"
+                                    class="form-control"
+                                    required></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -32,21 +23,39 @@
                             <label>Сотрудник</label>
                         </div>
                         <div class="col-sm-9">
-                            <select ng-model="formModel.employee"
-                                    ng-options="employee.id as employee.name for employee in employees"
-                                    class="form-control"></select>
+                            <div class="input-group">
+                                <select ng-model="paramModel.employee"
+                                        ng-options="employee as employee.fullName for employee in employees"
+                                        class="form-control"
+                                        ng-disabled="employees.length == 0"></select>
+                                <span class="input-group-addon btn" ng-disabled="employees.length == 0" ng-click="addEmployee()"><i class="glyphicon glyphicon-plus"></i></span>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <div ng-repeat="employee in employees" class="panel panel-default">
+    </div>
+</div>
+
+<!--ТАБЕЛЬ-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
             <div class="panel-heading">
-                <h4 ng-bind="employee.name" class="panel-title"></h4>
+                <h1 class="panel-title" ng-bind-template="Табель {{paramModel.month.value}} {{year}}"></h1>
             </div>
             <div class="panel-body">
-                <calendar></calendar>
+                <div ng-repeat="employee in table.employees" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 ng-bind="employee.name" class="panel-title"></h4>
+                    </div>
+                    <div class="panel-body">
+                        <calendar employee="employee"></calendar>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+

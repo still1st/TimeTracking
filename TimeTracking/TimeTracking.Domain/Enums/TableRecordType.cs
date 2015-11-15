@@ -16,7 +16,7 @@ namespace TimeTracking.Domain.Models
         /// Выходной
         /// </summary>
         [Description("в")]
-        WeekendDay = 2,
+        DayOff = 2,
 
         /// <summary>
         /// Отпуск

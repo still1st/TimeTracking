@@ -7,13 +7,23 @@
 
     return {
         restrict: 'E',
+        scope: {
+            employee: '='
+        },
         link: function (scope, element, attrs) {
-            var now = new Date();
-            var days = getDaysInMonth(now.getMonth(), now.getFullYear());
+            var records = scope.employee.records;
 
-            for (var i = 1; i <= days; i++) {
-                var newElement = angular.element('<li>' + i + '</li>');
-                element.append(newElement);
+            for (var i = 0; i < records.length; i++) {
+                var div = angular.element('<div class="day"></div>');
+                var header = records[i].isDayoff ? 
+                    angular.element('<div class="day-header dayoff"><span>' + records[i].dayNumber + '</span></div>') :
+                    angular.element('<div class="day-header"><span>' + records[i].dayNumber + '</span></div>');
+
+                var input = angular.element('<div class="day-body"><input type="text" value="' + records[i].hours + '"/></div>');
+                div.append(header);
+                div.append(input);
+
+                element.append(div);
             }
         }
     };

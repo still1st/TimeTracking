@@ -16,6 +16,8 @@ namespace TimeTracking.Models
         [Required]
         public String LastName { get; set; }
 
+        public String FullName { get; set; }
+
         [Required]
         public Int32 PostId { get; set; }
         public String Post { get; set; }

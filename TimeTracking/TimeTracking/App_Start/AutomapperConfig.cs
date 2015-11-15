@@ -15,7 +15,8 @@ namespace TimeTracking.App_Start
             Mapper.CreateMap<Employee, EmployeeModel>()
                 .ForMember(m => m.PostId, opt => opt.MapFrom(x => (Int32)x.Post))
                 .ForMember(m => m.Post, opt => opt.MapFrom(x => x.Post.GetDescription()))
-                .ForMember(m => m.Group, opt => opt.MapFrom(x => x.Group.GetDescription()));
+                .ForMember(m => m.Group, opt => opt.MapFrom(x => x.Group.GetDescription()))
+                .ForMember(m => m.FullName, opt => opt.MapFrom(x => x.LastName + ' ' + x.FirstName + ' ' + x.MiddleName)) ;
 
             Mapper.CreateMap<EmployeeModel, Employee>()
                 .ForMember(m => m.Post, opt => opt.MapFrom(x => (EmployeePost)x.PostId));
@@ -35,6 +36,10 @@ namespace TimeTracking.App_Start
 
             Mapper.CreateMap<PlanWorkDayModel, PlanWorkDay>()
                 .ForMember(m => m.EmployeeGroup, opt => opt.MapFrom(x => (EmployeeGroup)x.GroupId));
+
+            // Table record
+            Mapper.CreateMap<TableRecord, TableRecordModel>()
+                .ForMember(m => m.IsDayoff, opt => opt.MapFrom(x => x.Type == TableRecordType.DayOff));
         }
     }
 }

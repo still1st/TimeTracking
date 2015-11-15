@@ -187,6 +187,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlanWorktimeController.cs" />
+    <Compile Include="Controllers\TableController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -197,6 +198,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\PlanWorkDayModel.cs" />
     <Compile Include="Models\PlanWorkMonthModel.cs" />
+    <Compile Include="Models\TableRecordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -213,6 +215,8 @@
     <Content Include="app\directives\header\header.html" />
     <Content Include="app\pages\employee\employee.controller.js" />
     <Content Include="app\pages\employee\employee.html" />
+    <Content Include="app\pages\holidays\holidays.controller.js" />
+    <Content Include="app\pages\holidays\holidays.html" />
     <Content Include="app\pages\home\home.controller.js" />
     <Content Include="app\pages\home\home.html" />
     <Content Include="app\pages\planworktime\planworktime.html" />
@@ -220,6 +224,7 @@
     <Content Include="app\services\holiday.service.js" />
     <Content Include="app\services\employee.service.js" />
     <Content Include="app\services\planworktime.service.js" />
+    <Content Include="app\services\table.service.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bower_components\angular-resource\angular-resource.min.js" />
@@ -232,6 +237,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include=".bowerrc" />
     <Content Include="bower.json" />
+    <Content Include="app\app.constant.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

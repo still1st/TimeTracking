@@ -48,7 +48,9 @@
     <Compile Include="IEmployeeService.cs" />
     <Compile Include="Impl\EmployeeServiceImpl.cs" />
     <Compile Include="Impl\ReportServiceImpl.cs" />
+    <Compile Include="Impl\TableServiceImpl.cs" />
     <Compile Include="IReportService.cs" />
+    <Compile Include="ITableService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\Report.cs" />
   </ItemGroup>
@@ -56,6 +58,10 @@
     <ProjectReference Include="..\TimeTracking.Common\TimeTracking.Common.csproj">
       <Project>{1e927ff4-9d34-4e04-8405-3f2fdded00ee}</Project>
       <Name>TimeTracking.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TimeTracking.Domain.DataAccess\TimeTracking.Domain.DataAccess.csproj">
+      <Project>{a2c231ce-d4eb-4dbb-b062-7b72e97104ca}</Project>
+      <Name>TimeTracking.Domain.DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\TimeTracking.Domain\TimeTracking.Domain.csproj">
       <Project>{153792d4-0e3c-4b10-91fe-2e39f4822083}</Project>
