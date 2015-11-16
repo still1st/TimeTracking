@@ -15,6 +15,7 @@
                             <select ng-model="paramModel.month"
                                     ng-options="month as month.value for month in months"
                                     class="form-control"
+                                    ng-disabled="table.employees.length > 0"
                                     required></select>
                         </div>
                     </div>
@@ -43,14 +44,16 @@
     <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h1 class="panel-title" ng-bind-template="Табель {{paramModel.month.value}} {{year}}"></h1>
+                <h1 class="panel-title pull-left" ng-bind-template="Табель {{paramModel.month.value}} {{year}}"></h1>
+                <button class="btn btn-success pull-right" ng-disabled="table.employees.length == 0">Сохранить</button>
+                <div class="clearfix"></div>
             </div>
             <div class="panel-body">
                 <div ng-repeat="employee in table.employees" class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 ng-bind="employee.name" class="panel-title pull-left"></h4>
-                        <h4 ng-bind-template="Фактически: {{employee.fact | number:2}} ч." class="panel-title pull-right text-primary"></h4>
-                        <h4 ng-bind-template="Норма: {{employee.plan | number:2}} ч." class="panel-title pull-right text-success"></h4>
+                        <h1 class="panel-title pull-left" ng-bind="employee.name"></h1>
+                        <h1 class="panel-title pull-right text-primary" ng-bind-template="Фактически: {{employee.fact | number:2}} ч."></h1>
+                        <h1 class="panel-title pull-right text-success" ng-bind-template="Норма: {{employee.plan | number:2}} ч. / "></h1>
                         <div class="clearfix"></div>
                     </div>
                     <div class="panel-body">

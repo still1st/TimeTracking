@@ -41,7 +41,9 @@ namespace TimeTracking.Services.Impl
             if(planWorktime == null)
                 throw new InvalidOperationException("Planworktime wasn't settled");
 
-            var holidays = _holidayRepository.Query().Where(x => x.Date.Year == year && x.Date.Month == month).ToList();
+            var allDays = _holidayRepository.Query().Where(x => x.Date.Year == year && x.Date.Month == month).ToList();
+            var holidays = allDays.Where(x => x.Type == Domain.Enums.DayType.Holiday);
+            var preholidays = allDays.Where(x => x.Type == Domain.Enums.DayType.Preholiday);
 
             var tableRecords = new List<TableRecord>();
 
@@ -57,7 +59,11 @@ namespace TimeTracking.Services.Impl
                     continue;
                 }
 
-                tableRecords.Add(CreateTableRecord(startDay, employee, planWorktime.Hours, TableRecordType.Appearance));
+                var hours = planWorktime.Hours;
+                if (IsPreHoliday(startDay, preholidays))
+                    hours -= 1.0;
+
+                tableRecords.Add(CreateTableRecord(startDay, employee, hours, TableRecordType.Appearance));
             }
 
             return tableRecords;
@@ -73,6 +79,11 @@ namespace TimeTracking.Services.Impl
                 Hours = hours,
                 Type = type
             };
+        }
+
+        private Boolean IsPreHoliday(DateTime date, IEnumerable<Holiday> preholidays)
+        {
+            return preholidays.Any(x => x.Date == date);
         }
 
         private Boolean IsHoliday(DateTime date, IEnumerable<Holiday> holidays)
