@@ -19,7 +19,7 @@
                     angular.element('<div class="day-header dayoff"><span>' + records[i].dayNumber + '</span></div>') :
                     angular.element('<div class="day-header"><span>' + records[i].dayNumber + '</span></div>');
 
-                var input = angular.element('<div class="day-body"><input type="text" value="' + records[i].hours + '"/></div>');
+                var input = angular.element('<div class="day-body"><input type="number" ng-model="employee.hours"/></div>');
                 div.append(header);
                 div.append(input);
 

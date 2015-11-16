@@ -4,7 +4,7 @@
 
     return $resource(baseUrl, {}, {
         calcMonth: {
-            method: 'GET', url: baseUrl + 'calcMonth?year=:year&month=:month&employeeId=:employeeId', isArray: true
+            method: 'GET', url: baseUrl + 'calcMonth?year=:year&month=:month&employeeId=:employeeId'
         }
     });
 }]);

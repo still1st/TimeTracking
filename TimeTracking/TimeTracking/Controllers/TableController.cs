@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using TimeTracking.Models;
 using TimeTracking.Services;
+using System.Linq;
 
 namespace TimeTracking.Controllers
 {
@@ -27,7 +28,13 @@ namespace TimeTracking.Controllers
 
             var records = _tableService.CalcMonth(year, month, employee);
 
-            return Ok(Mapper.Map<IEnumerable<TableRecordModel>>(records));
+            var model = new
+            {
+                Plan = records.Sum(x => x.Hours),
+                Records = Mapper.Map<IEnumerable<TableRecordModel>>(records)
+            };
+
+            return Ok(model);
         }
 
         #region private fields
