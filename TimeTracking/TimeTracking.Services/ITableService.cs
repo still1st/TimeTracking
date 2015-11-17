@@ -17,5 +17,17 @@ namespace TimeTracking.Services
         /// <param name="employee">Employee</param>
         /// <returns>Collection of the table records</returns>
         IEnumerable<TableRecord> CalcMonth(Int32 year, Int32 month, Employee employee);
+
+        /// <summary>
+        /// Adds a new table
+        /// </summary>
+        /// <param name="table">Table entity</param>
+        void AddTable(Table table);
+
+        /// <summary>
+        /// Gets all tables
+        /// </summary>
+        /// <returns></returns>
+        IQueryable<Table> GetAllTables();
     }
 }

@@ -80,7 +80,7 @@ namespace TimeTracking.Services.Impl
         private void CalcWeek(Report.WeekLine week)
         {
             week.TotalAppereance = week.Records.Count(x => x.Type == TableRecordType.Appearance);
-            week.TotalHours = week.Records.Where(x => x.Hours.HasValue).Sum(x => x.Hours.Value);
+            week.TotalHours = week.Records.Sum(x => x.Hours);
         }
 
         private void CalcTotal(Report.EmployeeLine employee)
@@ -90,7 +90,7 @@ namespace TimeTracking.Services.Impl
             records.AddRange(employee.SecondWeek.Records);
 
             employee.TotalAppeareance = records.Count(x => x.Type == TableRecordType.Appearance);
-            employee.TotalHours = records.Where(x => x.Hours.HasValue).Sum(x => x.Hours.Value);
+            employee.TotalHours = records.Sum(x => x.Hours);
         }
         #endregion
     }

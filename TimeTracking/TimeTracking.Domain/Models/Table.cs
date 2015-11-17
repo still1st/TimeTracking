@@ -12,10 +12,5 @@ namespace TimeTracking.Domain.Models
         public virtual Int32 Year { get; set; }
 
         public virtual ICollection<TableRecord> Records { get; set; }
-
-        public Table()
-        {
-            Records = new List<TableRecord>();
-        }
     }
 }

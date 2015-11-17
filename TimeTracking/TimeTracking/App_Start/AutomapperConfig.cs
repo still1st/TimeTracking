@@ -4,6 +4,7 @@ using TimeTracking.Domain.Models;
 using TimeTracking.Models;
 using TimeTracking.Common.Extensions;
 using TimeTracking.Domain.Enums;
+using System.Globalization;
 
 namespace TimeTracking.App_Start
 {
@@ -37,9 +38,17 @@ namespace TimeTracking.App_Start
             Mapper.CreateMap<PlanWorkDayModel, PlanWorkDay>()
                 .ForMember(m => m.EmployeeGroup, opt => opt.MapFrom(x => (EmployeeGroup)x.GroupId));
 
+            // Table
+            Mapper.CreateMap<TableModel, Table>();
+            Mapper.CreateMap<Table, TableInfoModel>()
+                .ForMember(m => m.Month, opt => opt.MapFrom(x => DateTimeFormatInfo.CurrentInfo.GetMonthName(x.Month)));
+
             // Table record
             Mapper.CreateMap<TableRecord, TableRecordModel>()
                 .ForMember(m => m.IsDayoff, opt => opt.MapFrom(x => x.Type == TableRecordType.DayOff));
+
+            Mapper.CreateMap<TableRecordModel, TableRecord>()
+                .ForMember(m => m.Type, opt => opt.MapFrom(x => x.IsDayoff ? TableRecordType.DayOff : TableRecordType.Appearance));
         }
     }
 }

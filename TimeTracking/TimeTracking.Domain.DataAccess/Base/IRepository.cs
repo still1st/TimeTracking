@@ -26,6 +26,12 @@ namespace TimeTracking.Domain.DataAccess.Base
         void Add(T entity);
 
         /// <summary>
+        /// Adds a collection of the entities
+        /// </summary>
+        /// <param name="entities"></param>
+        void AddRange(IEnumerable<T> entities);
+
+        /// <summary>
         /// Updates entity
         /// </summary>
         /// <param name="entity">Entity</param>

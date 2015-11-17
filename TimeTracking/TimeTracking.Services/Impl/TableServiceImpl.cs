@@ -16,10 +16,36 @@ namespace TimeTracking.Services.Impl
         /// <param name="holidayRepository"></param>
         /// <param name="planWorkDayrepository"></param>
         public TableServiceImpl(IHolidayRepository holidayRepository,
-            IPlanWorkDayRepository planWorkDayrepository)
+            IPlanWorkDayRepository planWorkDayrepository,
+            ITableRepository tableRepository,
+            ITableRecordRepository tableRecordRepository)
         {
             _holidayRepository = holidayRepository;
             _planWorkDayrepository = planWorkDayrepository;
+            _tableRepository = tableRepository;
+            _tableRecordRepository = tableRecordRepository;
+        }
+
+        /// <summary>
+        /// Adds a new table
+        /// </summary>
+        /// <param name="table">Table entity</param>
+        public void AddTable(Table table)
+        {
+            if (table == null)
+                throw new ArgumentNullException("table");
+
+            _tableRepository.Add(table);
+            _tableRecordRepository.AddRange(table.Records);
+        }
+
+        /// <summary>
+        /// Gets all tables
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<Table> GetAllTables()
+        {
+            return _tableRepository.Query();
         }
 
         /// <summary>
@@ -98,7 +124,9 @@ namespace TimeTracking.Services.Impl
 
         #region private fields
         private IHolidayRepository _holidayRepository;
-        private IPlanWorkDayRepository _planWorkDayrepository; 
+        private IPlanWorkDayRepository _planWorkDayrepository;
+        private ITableRepository _tableRepository;
+        private ITableRecordRepository _tableRecordRepository; 
         #endregion
     }
 }

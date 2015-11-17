@@ -1,0 +1,74 @@
+﻿<!--ПАРАМЕТРЫ-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Параметры</h3>
+            </div>
+            <div class="panel-body">
+                <form name="paramForm" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Месяц</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select ng-model="paramModel.month"
+                                    ng-options="month as month.value for month in months"
+                                    class="form-control"
+                                    ng-disabled="table.employees.length > 0"
+                                    required></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Сотрудник</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <select ng-model="paramModel.employee"
+                                        ng-options="employee as employee.fullName for employee in employees"
+                                        class="form-control"
+                                        ng-disabled="employees.length == 0"></select>
+                                <span class="input-group-addon btn" ng-disabled="employees.length == 0" ng-click="addEmployee(paramModel.employee)"><i class="glyphicon glyphicon-plus"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ТАБЕЛЬ-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title pull-left" ng-bind-template="Табель {{paramModel.month.value}} {{year}}"></h1>
+                <button class="btn btn-success pull-right" ng-disabled="table.employees.length == 0" ng-click="save()">Сохранить</button>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body">
+                <div ng-repeat="employee in table.employees" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1 class="panel-title pull-left" ng-bind="employee.employeeName"></h1>
+                        <h1 class="panel-title pull-right text-primary" ng-bind-template="Фактически: {{employee.fact | number:2}} ч."></h1>
+                        <h1 class="panel-title pull-right text-success" ng-bind-template="Норма: {{employee.plan | number:2}} ч. / "></h1>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="day" ng-repeat="record in employee.records">
+                            <div ng-class="{'day-header dayoff': record.isDayoff, 'day-header': !record.isDayoff}">
+                                <span ng-bind="record.dayNumber"></span>
+                            </div>
+                            <div class="day-body">
+                                <input type="number" ng-model="record.hours" ng-change="changeHours(employee)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

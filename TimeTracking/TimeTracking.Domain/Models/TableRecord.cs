@@ -9,7 +9,7 @@ namespace TimeTracking.Domain.Models
         /// <summary>
         /// Gets or sets the number of working hours
         /// </summary>
-        public virtual Double? Hours { get; set; }
+        public virtual Double Hours { get; set; }
 
         /// <summary>
         /// Gets or sets number of the day

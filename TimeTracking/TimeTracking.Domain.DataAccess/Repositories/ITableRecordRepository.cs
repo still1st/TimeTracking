@@ -5,5 +5,6 @@ namespace TimeTracking.Domain.DataAccess.Repositories
 {
     public interface ITableRecordRepository : IRepository<TableRecord>
     {
+        
     }
 }
