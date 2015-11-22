@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TimeTracking.Domain.DataAccess.Repositories;
+using TimeTracking.Domain.Enums;
 using TimeTracking.Domain.Models;
 
 namespace TimeTracking.Services.Impl
@@ -21,7 +22,7 @@ namespace TimeTracking.Services.Impl
             ITableRecordRepository tableRecordRepository)
         {
             _holidayRepository = holidayRepository;
-            _planWorkDayrepository = planWorkDayrepository;
+            _planWorkDayRepository = planWorkDayrepository;
             _tableRepository = tableRepository;
             _tableRecordRepository = tableRecordRepository;
         }
@@ -49,6 +50,29 @@ namespace TimeTracking.Services.Impl
         }
 
         /// <summary>
+        /// Gets table by id
+        /// </summary>
+        /// <param name="id">Table Id</param>
+        /// <returns>Table entity</returns>
+        public Table GetById(Int64 id)
+        {
+            return _tableRepository.GetById(id);
+        }
+
+        /// <summary>
+        /// Removes the table
+        /// </summary>
+        /// <param name="table">Table entity</param>
+        public void Remove(Table table)
+        {
+            if (table == null)
+                throw new ArgumentNullException("table");
+
+            _tableRecordRepository.DeleteRange(table.Records);
+            _tableRepository.Delete(table);
+        }
+
+        /// <summary>
         /// Calcs work time for the employee for the month and year
         /// </summary>
         /// <param name="year">Year</param>
@@ -63,13 +87,12 @@ namespace TimeTracking.Services.Impl
             if (month <= 0 || month > 12)
                 throw new ArgumentException("month");
 
-            var planWorktime = _planWorkDayrepository.Query().FirstOrDefault(x => x.EmployeeGroup == employee.Group);
+            var planWorktime = _planWorkDayRepository.Query().FirstOrDefault(x => x.EmployeeGroup == employee.Group);
             if(planWorktime == null)
                 throw new InvalidOperationException("Planworktime wasn't settled");
 
-            var allDays = _holidayRepository.Query().Where(x => x.Date.Year == year && x.Date.Month == month).ToList();
-            var holidays = allDays.Where(x => x.Type == Domain.Enums.DayType.Holiday);
-            var preholidays = allDays.Where(x => x.Type == Domain.Enums.DayType.Preholiday);
+            var holidays = GetHolidays(year, month);
+            var preholidays = GetPreholidays(year, month);
 
             var tableRecords = new List<TableRecord>();
 
@@ -95,6 +118,48 @@ namespace TimeTracking.Services.Impl
             return tableRecords;
         }
 
+        /// <summary>
+        /// Calc work time for the month and for the employee group
+        /// </summary>
+        /// <param name="year">Year</param>
+        /// <param name="month">Month</param>
+        /// <param name="planWorkday">Employee group</param>
+        /// <returns>PlanWorkmonth</returns>
+        public Double CalcMonth(Int32 year, Int32 month, EmployeeGroup group)
+        {
+            var planWorkday = _planWorkDayRepository.Query().FirstOrDefault(x => x.EmployeeGroup == group);
+            return CalcMonth(year, month, planWorkday.Hours);
+        }
+
+        /// <summary>
+        /// Calc work time for the month and for the planWorkday
+        /// </summary>
+        /// <param name="year">Year</param>
+        /// <param name="month">Month</param>
+        /// <param name="planWorkday">Plan workday</param>
+        /// <returns>PlanWorkmonth</returns>
+        public Double CalcMonth(Int32 year, Int32 month, Double planWorkday)
+        {
+            var days = DateTime.DaysInMonth(year, month);
+            var startDay = new DateTime(year, month, 1);
+            var endDay = startDay.AddDays(days - 1);
+
+            Double plan = 0.0;
+
+            var holidays = GetHolidays(year, month);
+            var preholidays = GetPreholidays(year, month);
+
+            for (; startDay <= endDay; startDay = startDay.AddDays(1.0))
+            {
+                if (IsWeekend(startDay) || IsHoliday(startDay, holidays))
+                    continue;
+
+                plan += IsPreHoliday(startDay, preholidays) ? planWorkday - 1.0 : planWorkday;
+            }
+
+            return plan;
+        }
+
         private TableRecord CreateTableRecord(DateTime date, Employee employee, Double hours = 0.0, TableRecordType type = TableRecordType.DayOff)
         {
             return new TableRecord
@@ -105,6 +170,16 @@ namespace TimeTracking.Services.Impl
                 Hours = hours,
                 Type = type
             };
+        }
+
+        private List<Holiday> GetHolidays(Int32 year, Int32 month)
+        {
+            return _holidayRepository.Query().Where(x => x.Date.Year == year && x.Date.Month == month && x.Type == Domain.Enums.DayType.Holiday).ToList();
+        }
+
+        private List<Holiday> GetPreholidays(Int32 year, Int32 month)
+        {
+            return _holidayRepository.Query().Where(x => x.Date.Year == year && x.Date.Month == month && x.Type == Domain.Enums.DayType.Preholiday).ToList();
         }
 
         private Boolean IsPreHoliday(DateTime date, IEnumerable<Holiday> preholidays)
@@ -124,7 +199,7 @@ namespace TimeTracking.Services.Impl
 
         #region private fields
         private IHolidayRepository _holidayRepository;
-        private IPlanWorkDayRepository _planWorkDayrepository;
+        private IPlanWorkDayRepository _planWorkDayRepository;
         private ITableRepository _tableRepository;
         private ITableRecordRepository _tableRecordRepository; 
         #endregion

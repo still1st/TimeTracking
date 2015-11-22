@@ -23,6 +23,32 @@ namespace TimeTracking.Controllers
         }
 
         [HttpGet]
+        public IHttpActionResult GetTable(Int64 id)
+        {
+            var table = _tableService.GetById(id);
+            if (table == null)
+                return NotFound();
+
+            var model = Mapper.Map<TableModel>(table);
+            var employeeTableModels = new List<EmployeeTableModel>();
+
+            var employees = table.Records.GroupBy(x => x.Employee);
+            foreach (var employee in employees)
+            {
+                var employeeTableModel = Mapper.Map<EmployeeTableModel>(employee.Key);
+                employeeTableModel.Records = Mapper.Map<IEnumerable<TableRecordModel>>(employee);
+                employeeTableModel.Plan = _tableService.CalcMonth(table.Year, table.Month, employee.Key.Group);
+                employeeTableModel.Fact = employeeTableModel.Records.Sum(x => x.Hours);
+
+                employeeTableModels.Add(employeeTableModel);
+            }
+
+            model.Employees = employeeTableModels;
+
+            return Ok(model);
+        }
+
+        [HttpGet]
         public IHttpActionResult GetTables()
         {
             var tables = Mapper.Map<IEnumerable<TableInfoModel>>(_tableService.GetAllTables().OrderBy(x => x.Year).ThenBy(x => x.Month));
@@ -42,7 +68,7 @@ namespace TimeTracking.Controllers
 
             foreach (var employeeTable in model.Employees)
             {
-                if(!employees.ContainsKey(employeeTable.EmployeeId))
+                if (!employees.ContainsKey(employeeTable.EmployeeId))
                     throw new Exception("Employee with key " + employeeTable.EmployeeId + " wasn't found");
 
                 foreach (var recordModel in employeeTable.Records)
@@ -57,6 +83,79 @@ namespace TimeTracking.Controllers
             }
 
             _tableService.AddTable(table);
+            _unitOfWork.Commit();
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public IHttpActionResult PutTable(Int64 id, [FromBody]TableModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (id != model.TableId)
+                return BadRequest();
+
+            var table = _tableService.GetById(id);
+            if (table == null)
+                return NotFound();
+
+            var employees = _employeeService.GetAllEmployees().ToDictionary(k => k.EmployeeId, v => v);
+
+            Mapper.Map<TableModel, Table>(model, table);
+
+            // Update/add records
+            var groupedEmployees = table.Records.GroupBy(x => x.Employee);
+            foreach (var employeeModel in model.Employees)
+            {
+                if (!employees.ContainsKey(employeeModel.EmployeeId))
+                    throw new Exception("Employee with id " + employeeModel.EmployeeId + " wasn't found");
+
+                var employee = groupedEmployees.FirstOrDefault(x => x.Key.EmployeeId == employeeModel.EmployeeId);
+                foreach (var recordModel in employeeModel.Records)
+                {
+                    TableRecord record;
+                    // add new employee in table
+                    if (employee == null)
+                    {
+                        record = Mapper.Map<TableRecord>(recordModel);
+                        record.Date = new DateTime(table.Year, table.Month, recordModel.DayNumber);
+                        record.Table = table;
+                        record.Employee = employees[employeeModel.EmployeeId];
+
+                        table.Records.Add(record);
+                    }
+                    // update existing records
+                    else
+                    {
+                        record = employee.FirstOrDefault(x => x.TableRecordId == recordModel.TableRecordId);
+                        if (record == null)
+                            throw new Exception("Record with id " + recordModel.TableRecordId + "wasn't found");
+
+                        Mapper.Map<TableRecordModel, TableRecord>(recordModel, record);
+                    }
+                }
+            }
+
+            // delete records if it needs
+            table.Records.Where(x => !model.Employees.Any(y => y.EmployeeId == x.Employee.EmployeeId))
+                .ToList()
+                .ForEach(x => table.Records.Remove(x));
+
+            _unitOfWork.Commit();
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteTable(Int64 id)
+        {
+            var table = _tableService.GetById(id);
+            if (table == null)
+                return NotFound();
+
+            _tableService.Remove(table);
             _unitOfWork.Commit();
 
             return Ok();
@@ -88,7 +187,7 @@ namespace TimeTracking.Controllers
         #region private fields
         private IEmployeeService _employeeService;
         private ITableService _tableService;
-        private IUnitOfWork _unitOfWork; 
+        private IUnitOfWork _unitOfWork;
         #endregion
     }
 }

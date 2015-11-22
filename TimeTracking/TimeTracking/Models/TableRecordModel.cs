@@ -7,6 +7,7 @@ namespace TimeTracking.Models
 {
     public class TableRecordModel
     {
+        public Int64 TableRecordId { get; set; }
         public Int32 DayNumber { get; set; }
         public Double Hours { get; set; }
         public Boolean IsDayoff { get; set; }

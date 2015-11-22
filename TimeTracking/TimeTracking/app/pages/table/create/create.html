@@ -1,0 +1,46 @@
+﻿<!--ПАРАМЕТРЫ-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Параметры</h3>
+            </div>
+            <div class="panel-body">
+                <form name="paramForm" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Месяц</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select ng-model="table.month"
+                                    ng-options="month.key as month.value for month in months"
+                                    ng-disabled="table.employees.length > 0"
+                                    class="form-control"
+                                    required>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label>Сотрудник</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <select ng-model="selectedEmployee"
+                                        ng-options="employee as employee.fullName disable when employee.used for employee in employees"
+                                        class="form-control">
+                                    <option value="">-- Выберите сотрудника --</option>
+                                </select>
+                                <span class="input-group-addon btn" ng-disabled="!selectedEmployee" ng-click="addEmployee()"><i class="glyphicon glyphicon-plus"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ТАБЕЛЬ-->
+<time-tracking-table></time-tracking-table>
+

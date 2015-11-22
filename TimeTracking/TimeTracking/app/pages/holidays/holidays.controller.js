@@ -1,6 +1,6 @@
 ﻿angular.module('timetracking')
-.controller('HolidaysCtrl', ['$scope', '$routeParams', 'HolidayService',
-    function ($scope, $routeParams, HolidayService) {
+.controller('HolidaysCtrl', ['$scope', '$routeParams', 'HolidayService', '$window',
+    function ($scope, $routeParams, HolidayService, $window) {
         $scope.year = $routeParams.year || new Date().getFullYear();
 
         $scope.holidayModel = new HolidayService();
@@ -12,6 +12,16 @@
             $scope.holidayModel.$save(function (day) {
                 $scope.holidays.push(day);
                 $scope.holidayModel = new HolidayService();
+            });
+        };
+
+        $scope.remove = function (holiday) {
+            if (!$window.confirm('Are you sure?'))
+                return;
+
+            holiday.$delete(function () {
+                var index = $scope.holidays.indexOf(holiday);
+                $scope.holidays.splice(index, 1);
             });
         };
 

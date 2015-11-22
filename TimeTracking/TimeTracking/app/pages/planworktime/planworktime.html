@@ -28,7 +28,7 @@
                             <input class="form-control" type="text" ng-model="planWorkDayModel.hours" required />
                         </div>
                     </div>
-                    <button class="btn btn-primary btn-block" ng-click="addPlanWorkDay()" ng-disabled="planWorkDayForm.$invalid">Добавить</button>
+                    <button class="btn btn-primary btn-block" ng-click="save()" ng-disabled="planWorkDayForm.$invalid">Добавить</button>
                 </form>
             </div>
 
@@ -39,6 +39,7 @@
                         <th>#</th>
                         <th>Группа</th>
                         <th>Часов в день</th>
+                        <th>Действие</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +47,9 @@
                         <td ng-bind="$index+1"></td>
                         <td ng-bind="planWorkDay.group"></td>
                         <td ng-bind="planWorkDay.hours"></td>
+                        <td>
+                            <button class="btn btn-default" ng-click="remove(planWorkDay)">Удалить</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

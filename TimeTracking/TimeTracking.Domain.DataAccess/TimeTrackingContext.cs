@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using TimeTracking.Domain.DataAccess.Migrations;
 using TimeTracking.Domain.Models;
 
 namespace TimeTracking.Domain.DataAccess
@@ -8,6 +9,7 @@ namespace TimeTracking.Domain.DataAccess
         public TimeTrackingContext()
             : base("TimeTrackingConnection")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<TimeTrackingContext, Configuration>());
         }
 
         /// <summary>

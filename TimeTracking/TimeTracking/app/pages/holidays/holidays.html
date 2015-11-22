@@ -39,6 +39,7 @@
                         <th>#</th>
                         <th>День</th>
                         <th>Тип</th>
+                        <th>Действие</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +47,9 @@
                         <td ng-bind="$index+1"></td>
                         <td ng-bind="holiday.date | date: 'dd.MM.yyyy'"></td>
                         <td ng-bind="holiday.type"></td>
+                        <td>
+                            <button class="btn btn-default" ng-click="remove(holiday)">Удалить</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

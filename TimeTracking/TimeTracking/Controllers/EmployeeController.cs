@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using TimeTracking.Common.Extensions;
 using TimeTracking.Domain.DataAccess.Base;
 using TimeTracking.Domain.DataAccess.Repositories;
+using TimeTracking.Domain.Enums;
 using TimeTracking.Domain.Models;
 using TimeTracking.Models;
-using System.Collections.Generic;
 using TimeTracking.Services;
-using TimeTracking.Domain.Enums;
 
 namespace TimeTracking.Controllers
 {
@@ -19,10 +18,12 @@ namespace TimeTracking.Controllers
     {
         public EmployeeController(IEmployeeService employeeService,
             IEmployeeRepository employeeRepository,
+            ITableRecordRepository tableRecordRepository,
             IUnitOfWork unitOfWork)
         {
             _employeeService = employeeService;
             _employeeRepository = employeeRepository;
+            _tableRecordRepository = tableRecordRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -46,32 +47,15 @@ namespace TimeTracking.Controllers
             return Ok(Mapper.Map<EmployeeModel>(employee));
         }
 
-        [HttpPut]
-        public IHttpActionResult Put(EmployeeModel model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
-            var employee = _employeeRepository.GetById(model.EmployeeId);
-            if (employee == null)
-                return NotFound();
-
-            employee.FirstName = model.FirstName;
-            employee.LastName = model.LastName;
-            employee.Post = (EmployeePost)model.PostId;
-
-            _employeeRepository.Update(employee);
-            _unitOfWork.Commit();
-
-            return Ok();
-        }
-
         [HttpDelete]
-        public IHttpActionResult Delete(Int64 employeeId)
+        public IHttpActionResult Delete(Int64 id)
         {
-            var employee = _employeeRepository.GetById(employeeId);
+            var employee = _employeeRepository.GetById(id);
             if (employee == null)
                 return NotFound();
+
+            if (_tableRecordRepository.Query().Any(x => x.Employee.EmployeeId == id))
+                return BadRequest("There are tables for the employee " + id);
 
             _employeeRepository.Delete(employee);
             _unitOfWork.Commit();
@@ -97,6 +81,7 @@ namespace TimeTracking.Controllers
         private IEmployeeRepository _employeeRepository;
         private IUnitOfWork _unitOfWork;
         private IEmployeeService _employeeService;
+        private ITableRecordRepository _tableRecordRepository;
         #endregion
     }
 }

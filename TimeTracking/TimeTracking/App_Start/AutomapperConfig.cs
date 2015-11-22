@@ -19,6 +19,9 @@ namespace TimeTracking.App_Start
                 .ForMember(m => m.Group, opt => opt.MapFrom(x => x.Group.GetDescription()))
                 .ForMember(m => m.FullName, opt => opt.MapFrom(x => x.LastName + ' ' + x.FirstName + ' ' + x.MiddleName)) ;
 
+            Mapper.CreateMap<Employee, EmployeeTableModel>()
+                .ForMember(m => m.EmployeeName, opt => opt.MapFrom(x => x.LastName + " " + x.FirstName + " " + x.MiddleName));
+
             Mapper.CreateMap<EmployeeModel, Employee>()
                 .ForMember(m => m.Post, opt => opt.MapFrom(x => (EmployeePost)x.PostId));
 
@@ -39,6 +42,7 @@ namespace TimeTracking.App_Start
                 .ForMember(m => m.EmployeeGroup, opt => opt.MapFrom(x => (EmployeeGroup)x.GroupId));
 
             // Table
+            Mapper.CreateMap<Table, TableModel>();
             Mapper.CreateMap<TableModel, Table>();
             Mapper.CreateMap<Table, TableInfoModel>()
                 .ForMember(m => m.Month, opt => opt.MapFrom(x => DateTimeFormatInfo.CurrentInfo.GetMonthName(x.Month)));

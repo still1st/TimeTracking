@@ -1,0 +1,34 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title pull-left" ng-bind-template="Табель Месяц: {{table.month}} Год: {{table.year}}"></h1>
+                <button class="btn btn-success pull-right" ng-disabled="table.employees.length == 0" ng-click="save()">Сохранить</button>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body">
+                <div ng-repeat="employee in table.employees" class="panel panel-default">
+                    <div class="panel-heading">
+                        <button class="pull-right btn btn-default" ng-click="removeEmployee(employee)"><i class="glyphicon glyphicon-remove"></i></button>
+                        <h1 class="panel-title" ng-bind="employee.employeeName"></h1>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="day" ng-repeat="record in employee.records">
+                            <div ng-class="{'day-header dayoff': record.isDayoff, 'day-header': !record.isDayoff}">
+                                <span ng-bind="record.dayNumber"></span>
+                            </div>
+                            <div class="day-body">
+                                <input type="number" ng-model="record.hours" ng-change="changeHours(employee)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <span class="text-success" ng-bind-template="Норма: {{employee.plan | number:2}} ч."></span>
+                        <span class="text-primary" ng-bind-template="Фактически: {{employee.fact | number:2}} ч."></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

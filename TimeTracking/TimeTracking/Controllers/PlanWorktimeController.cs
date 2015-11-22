@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using TimeTracking.Common.Extensions;
 using TimeTracking.Domain.DataAccess.Base;
 using TimeTracking.Domain.DataAccess.Repositories;
+using TimeTracking.Domain.Enums;
 using TimeTracking.Domain.Models;
 using TimeTracking.Models;
+using TimeTracking.Services;
 
 namespace TimeTracking.Controllers
 {
@@ -18,11 +18,11 @@ namespace TimeTracking.Controllers
     public class PlanWorktimeController : ApiController
     {
         public PlanWorktimeController(IPlanWorkDayRepository planWorkDayRepository,
-            IHolidayRepository holidayRepository,
+            ITableService tableService,
             IUnitOfWork unitOfWork)
         {
             _planWorkDayRepository = planWorkDayRepository;
-            _holidayRepository = holidayRepository;
+            _tableService = tableService;
             _unitOfWork = unitOfWork;
         }
 
@@ -38,6 +38,9 @@ namespace TimeTracking.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
+            if (_planWorkDayRepository.Query().Any(x => x.EmployeeGroup == (EmployeeGroup)model.GroupId))
+                return BadRequest("Plan work time for the employee group already exists");
+
             var standartWorkday = Mapper.Map<PlanWorkDay>(model);
             _planWorkDayRepository.Add(standartWorkday);
             _unitOfWork.Commit();
@@ -45,31 +48,35 @@ namespace TimeTracking.Controllers
             return Ok(Mapper.Map<PlanWorkDayModel>(standartWorkday));
         }
 
+        [HttpDelete]
+        public IHttpActionResult Delete(Int64 id)
+        {
+            var planworktime = _planWorkDayRepository.GetById(id);
+            if (planworktime == null)
+                return NotFound();
+
+            _planWorkDayRepository.Delete(planworktime);
+            _unitOfWork.Commit();
+
+            return Ok();
+        }
+
         [HttpGet]
         [Route("calc")]
         public IHttpActionResult Calc(Int32 year)
         {
             var planWorkDays = _planWorkDayRepository.Query().ToList();
-            var holidays = _holidayRepository.Query().Where(x => x.Date.Year == year).ToList();
 
             var models = new List<PlanWorkMonthModel>();
             for (int i = 1; i <= 12; i++)
             {
-                var model = new PlanWorkMonthModel 
+                var model = new PlanWorkMonthModel  
                 {
                     Month = DateTimeFormatInfo.CurrentInfo.GetMonthName(i),
                 };
                 
                 foreach (var planWorkDay in planWorkDays)
-                {
-                    var group = new GroupModel
-                    {
-                        Group = EnumExtensions.GetDescription(planWorkDay.EmployeeGroup),
-                        Hours = GetBusinessDays(year, i) * planWorkDay.Hours
-                    };
-
-                    model.Groups.Add(group);
-                }
+                    model.Groups.Add(CreateGroupModel(year, i, planWorkDay));
 
                 models.Add(model);
             }
@@ -77,34 +84,19 @@ namespace TimeTracking.Controllers
             return Ok(models);
         }
 
-        public static Double GetBusinessDays(Int32 year, Int32 month)
+        private GroupModel CreateGroupModel(Int32 year, Int32 month, PlanWorkDay planWorkDay)
         {
-            var start = GetFirstDay(year, month);
-            var end = GetLastDay(year, month);
-
-            double calcBusinessDays = 1 + ((end-start).TotalDays * 5 - (start.DayOfWeek-end.DayOfWeek) * 2) / 7;
-            if ((int)end.DayOfWeek == 6) 
-                calcBusinessDays--;
-            if ((int)start.DayOfWeek == 0) 
-                calcBusinessDays--;
-
-            return calcBusinessDays;
-        }
-
-        public static DateTime GetFirstDay(Int32 year, Int32 month)
-        {
-            return new DateTime(year, month, 1);
-        }
-
-        public static DateTime GetLastDay(Int32 year, Int32 month)
-        {
-            return GetFirstDay(year, month).AddMonths(1).AddDays(-1);
+            return new GroupModel
+            {
+                Group = EnumExtensions.GetDescription(planWorkDay.EmployeeGroup),
+                Hours = _tableService.CalcMonth(year, month, planWorkDay.Hours)
+            };
         }
 
         #region private fields
         private IPlanWorkDayRepository _planWorkDayRepository;
         private IUnitOfWork _unitOfWork;
-        private IHolidayRepository _holidayRepository;
+        private ITableService _tableService;
         #endregion
     }
 }

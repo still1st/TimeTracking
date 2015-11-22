@@ -55,11 +55,19 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -211,7 +219,10 @@
     <Content Include="app\app.config.routes.js" />
     <Content Include="app\app.controller.js" />
     <Content Include="app\app.module.js" />
-    <Content Include="app\directives\calendar\calendar.directive.js" />
+    <Content Include="app\app.config.js" />
+    <Content Include="app\directives\table\table.controller.js" />
+    <Content Include="app\directives\table\table.directive.js" />
+    <Content Include="app\directives\table\table.html" />
     <Content Include="app\directives\footer\footer.directive.js" />
     <Content Include="app\directives\footer\footer.html" />
     <Content Include="app\directives\header\header.directive.js" />
@@ -224,8 +235,10 @@
     <Content Include="app\pages\home\home.html" />
     <Content Include="app\pages\planworktime\planworktime.html" />
     <Content Include="app\pages\planworktime\planworktime.controller.js" />
-    <Content Include="app\pages\table\table.controller.js" />
-    <Content Include="app\pages\table\table.html" />
+    <Content Include="app\pages\table\edit\edit.controller.js" />
+    <Content Include="app\pages\table\edit\edit.html" />
+    <Content Include="app\pages\table\create\create.controller.js" />
+    <Content Include="app\pages\table\create\create.html" />
     <Content Include="app\services\holiday.service.js" />
     <Content Include="app\services\employee.service.js" />
     <Content Include="app\services\planworktime.service.js" />
